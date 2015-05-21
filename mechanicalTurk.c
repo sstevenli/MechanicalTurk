@@ -26,13 +26,13 @@ action decideAction (Game g) {
      * Patents
      * (trading)
      */
-    int myID = getWhoseTurn(g);
-    int THDs = getStuents (g, myID, STUDENT_THD);
-    int BPSs = getStuents (g, myID, STUDENT_BPS);
-    int BQNs = getStuents (g, myID, STUDENT_BQN);
-    int MJs = getStuents (g, myID, STUDENT_MJ);
-    int MTVs = getStuents (g, myID, STUDENT_MTV);
-    int MMONEYs = getStuents (g, myID, STUDENT_MMONEY);
+    int myID    = getWhoseTurn(g);
+    int THDs    = getStudents(g, myID, STUDENT_THD);
+    int BPSs    = getStudents(g, myID, STUDENT_BPS);
+    int BQNs    = getStudents(g, myID, STUDENT_BQN);
+    int MJs     = getStudents(g, myID, STUDENT_MJ);
+    int MTVs    = getStudents(g, myID, STUDENT_MTV);
+    int MMONEYs = getStudents(g, myID, STUDENT_MMONEY);
 
     if (MJs >= 2 && MMONEYs >=3) {
         //build Go8
