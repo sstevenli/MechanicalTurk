@@ -7,7 +7,7 @@
 #include <stdlib.h>
 #include <assert.h>
 
-#include "game.h"
+#include "Game.h"
 #include "mechanicalTurk.h"
 
 #define PATH_INITIAL "RLRL"
@@ -33,7 +33,7 @@ action decideAction (Game g) {
 void nextPath( path previousPath, int index ) {
 
     path pathSequence = PATH_SEQUENCE;
-    (previousPath*)[index + 4]      = pathSequence[index];
-    (previousPath*)[index + 4 + 1] = '\0';
+    previousPath[index + 4]      = pathSequence[index];
+    previousPath[index + 4 + 1] = '\0';
 
 }
