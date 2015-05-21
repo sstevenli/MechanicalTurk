@@ -14,6 +14,9 @@ action decideAction (Game g) {
 
     action nextAction;
 
+    path initialPosition = "RLRLR";
+    path fullPath = "RLLLLLRLLLLBLLLLBLLLLBLLLLBLLLLBLLLBLLLLBLLLLBLLLBLLLLBLLLBLLLLBLLLBLLLLBLLLBLLLLBLLLBLLL";
+
     nextAction.actionCode = START_SPINOFF;
 
     if ( !isLegalAction( g, nextAction ) ) {
