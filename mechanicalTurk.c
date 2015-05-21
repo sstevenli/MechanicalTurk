@@ -43,7 +43,26 @@ action decideAction (Game g) {
     } else if (MJs >=1 && MTVs >=1 && MMONEYs>=1) {
         //make patent
     } else {
-        //trade
+
+        nextAction.actionCode = RETRAIN_STUDENTS;
+
+        if ( BPSs > BQNs ) {
+            nextAction.disciplineTo = STUDENT_BQN;
+        } else {
+            nextAction.disciplineTo = STUDENT_BPS;
+        }
+
+        nextAction.disciplineFrom = STUDENT_MMONEY;
+        if ( !isLegalAction( g, nextAction ) ) {
+            nextAction.disciplineFrom = STUDENT_MTV;
+            if ( !isLegalAction( g, nextAction ) ) {
+                nextAction.disciplineFrom = STUDENT_MJ;
+                if ( !isLegalAction( g, nextAction ) ) {
+                    nextAction.actionCode = PASS;
+                }
+            }
+        }
+
     }
 /*
 >>>>>>> actionOrder
