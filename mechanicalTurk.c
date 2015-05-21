@@ -13,7 +13,7 @@
 #define PATH_INITIAL "RLRL"
 #define PATH_SEQUENCE "RLLLLLRLLLLBLLLLBLLLLBLLLLBLLLLBLLLBLLLLBLLLLBLLLBLLLLBLLLBLLLLBLLLBLLLLBLLLBLLLLBLLLBLLL"
 
-void nextPath( path previousPath, int index );
+static void nextPath( path previousPath, int index );
 
 action decideAction (Game g) {
 
@@ -30,7 +30,7 @@ action decideAction (Game g) {
 
 // index is the index of PATH_SEQUENCE
 // i.e. the current iteration of the pathing loop
-void nextPath( path previousPath, int index ) {
+static void nextPath( path previousPath, int index ) {
 
     path pathSequence = PATH_SEQUENCE;
     previousPath[index + 4]      = pathSequence[index];
