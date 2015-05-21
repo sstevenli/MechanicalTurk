@@ -10,12 +10,14 @@
 #include "game.h"
 #include "mechanicalTurk.h"
 
+#define PATH_INITIAL "RLRL"
+#define PATH_SEQUENCE "RLLLLLRLLLLBLLLLBLLLLBLLLLBLLLLBLLLBLLLLBLLLLBLLLBLLLLBLLLBLLLLBLLLBLLLLBLLLBLLLLBLLLBLLL"
+
 action decideAction (Game g) {
 
     action nextAction;
 
-    path initialPosition = "RLRLR";
-    path fullPath = "RLLLLLRLLLLBLLLLBLLLLBLLLLBLLLLBLLLBLLLLBLLLLBLLLBLLLLBLLLBLLLLBLLLBLLLLBLLLBLLLLBLLLBLLL";
+    path fullPath = 
 
     nextAction.actionCode = START_SPINOFF;
 
