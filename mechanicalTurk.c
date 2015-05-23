@@ -34,7 +34,7 @@ action decideAction (Game g) {
     int SpinoffPossible = TRUE;
 
     int myID    = getWhoseTurn(g);
-    int THDs    = getStudents(g, myID, STUDENT_THD);
+    //int THDs    = getStudents(g, myID, STUDENT_THD);
     int BPSs    = getStudents(g, myID, STUDENT_BPS);
     int BQNs    = getStudents(g, myID, STUDENT_BQN);
     int MJs     = getStudents(g, myID, STUDENT_MJ);
@@ -44,7 +44,7 @@ action decideAction (Game g) {
     if (MJs >= 2 && MMONEYs >=3 && Go8Legal == TRUE) {
         //build Go8
         action tempAction = iterateLegal(BUILD_GO8, g);
-        if (tempAction.actionCode = PASS) {
+        if (tempAction.actionCode == PASS) {
             Go8Legal = FALSE;
         }
     } else {
@@ -53,7 +53,7 @@ action decideAction (Game g) {
     if (BPSs >=1 && BQNs >=1 && MJs >=1 && MTVs >=1 && CampusLegal == TRUE) {
         //build campus
         action tempAction = iterateLegal(BUILD_CAMPUS, g);
-        if (tempAction.actionCode = PASS) {
+        if (tempAction.actionCode == PASS) {
             CampusLegal = FALSE;
         }
     } else {
@@ -62,16 +62,13 @@ action decideAction (Game g) {
     if (BQNs >=1 && BPSs >=1 && ArcLegal == TRUE) {
         //build arc
         action tempAction = iterateLegal(OBTAIN_ARC, g);
-        if (tempAction.actionCode = PASS) {
+        if (tempAction.actionCode == PASS) {
             ArcLegal = FALSE;
         }
     } else {
         ArcLegal = FALSE;
     }
-    if (MJs >=1 && MTVs >=1 && MMONEYs>=1) {
-        //make patent
-        action tempAction = iterateLegal(START_SPINOFF, g);
-    } else {
+    if (!(MJs >=1 && MTVs >=1 && MMONEYs>=1)) {
         SpinoffPossible = FALSE;
     } 
     //trade
@@ -95,6 +92,8 @@ action decideAction (Game g) {
             }
         }
     }
+
+    return nextAction;
 }
 
 static action iterateLegal (int actionCode, Game g) {
