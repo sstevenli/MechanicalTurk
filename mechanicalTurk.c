@@ -85,6 +85,8 @@ action decideAction (Game g) {
         }
     }
 
+    printf( "%d, ", nextAction.actionCode );
+
     return nextAction;
 }
 
