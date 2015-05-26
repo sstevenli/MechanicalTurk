@@ -53,10 +53,6 @@ action decideAction (Game g) {
 
                 if ( !isLegalAction( g, nextAction ) ) {
 
-                    // Find students to retrain
-
-                    /*
-
                     nextAction.actionCode = RETRAIN_STUDENTS;
 
                     if ( getStudents(g, getWhoseTurn(g), STUDENT_BPS) > getStudents(g, getWhoseTurn(g), STUDENT_BQN) ) {
@@ -75,9 +71,7 @@ action decideAction (Game g) {
                             }
                         }
                     }
-                    */
 
-                    // remove trading for now
                     nextAction.actionCode = PASS;
                 }
             }
