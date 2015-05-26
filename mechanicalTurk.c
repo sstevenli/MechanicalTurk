@@ -28,8 +28,6 @@ action decideAction (Game g) {
      * (trading)
      */
 
-    int myID    = getWhoseTurn(g);
-
     // Test GO8
     action tempAction = iterateLegal(BUILD_GO8, g);
     nextAction.actionCode = tempAction.actionCode;
@@ -58,9 +56,11 @@ action decideAction (Game g) {
 
                     // Find students to retrain
 
+                    /*
+
                     nextAction.actionCode = RETRAIN_STUDENTS;
 
-                    if ( getStudents(g, myID, STUDENT_BPS) > getStudents(g, myID, STUDENT_BQN) ) {
+                    if ( getStudents(g, getWhoseTurn(g), STUDENT_BPS) > getStudents(g, getWhoseTurn(g), STUDENT_BQN) ) {
                         nextAction.disciplineTo = STUDENT_BQN;
                     } else {
                         nextAction.disciplineTo = STUDENT_BPS;
@@ -76,6 +76,10 @@ action decideAction (Game g) {
                             }
                         }
                     }
+                    */
+
+                    // remove trading for now
+                    nextAction.actionCode = PASS;
                 }
             }
         }
@@ -93,7 +97,7 @@ static action iterateLegal (int actionCode, Game g) {
     //tempAction.disciplineTo = to;
     int legal = FALSE;
 
-    while (strlen(tempPath) <= strlen(PATH_INITIAL) + strlen(PATH_SEQUENCE) && legal == FALSE) {
+    while ( (strlen(tempPath) <= (strlen(PATH_INITIAL) + strlen(PATH_SEQUENCE))) && legal == FALSE) {
         legal = isLegalAction(g, tempAction);
         if (legal == FALSE) {
             nextPath(tempPath);
@@ -101,16 +105,18 @@ static action iterateLegal (int actionCode, Game g) {
         }
     }
     if (legal == FALSE) {
-       tempAction.actionCode = 0; 
+       tempAction.actionCode = PASS; 
     }
     return tempAction;
 }
 // index is the index of PATH_SEQUENCE
 // i.e. the current iteration of the pathing loop
 static void nextPath(path previousPath) {
-    int index = strlen(previousPath);
+    int index = strlen(previousPath) - strlen(PATH_INITIAL);
     path pathSequence = PATH_SEQUENCE;
-    previousPath[index + 4]      = pathSequence[index];
-    previousPath[index + 4 + 1] = '\0';
+    previousPath[index + strlen(PATH_INITIAL)]      = pathSequence[index];
+    previousPath[index + strlen(PATH_INITIAL) + 1] = '\0';
 
 }
+
+
