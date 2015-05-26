@@ -19,6 +19,10 @@ static action iterateLegal (int actionCode, Game g);
 action decideAction (Game g) {
 
     action nextAction;
+    nextAction.actionCode = PASS;
+    nextAction.disciplineTo = 0;
+    nextAction.disciplineFrom = 0;
+    nextAction.destination[0] = '\0';
     /*Order of actions:
      * Go8 
      * Campuses
