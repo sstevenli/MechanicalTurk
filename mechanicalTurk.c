@@ -28,66 +28,54 @@ action decideAction (Game g) {
      * (trading)
      */
 
-    int Go8Legal = TRUE;
-    int CampusLegal = TRUE;
-    int ArcLegal = TRUE;
-    int SpinoffPossible = TRUE;
-
     int myID    = getWhoseTurn(g);
-    //int THDs    = getStudents(g, myID, STUDENT_THD);
-    int BPSs    = getStudents(g, myID, STUDENT_BPS);
-    int BQNs    = getStudents(g, myID, STUDENT_BQN);
-    int MJs     = getStudents(g, myID, STUDENT_MJ);
-    int MTVs    = getStudents(g, myID, STUDENT_MTV);
-    int MMONEYs = getStudents(g, myID, STUDENT_MMONEY);
 
-    if (MJs >= 2 && MMONEYs >=3 && Go8Legal == TRUE) {
-        //build Go8
-        action tempAction = iterateLegal(BUILD_GO8, g);
-        if (tempAction.actionCode == PASS) {
-            Go8Legal = FALSE;
-        }
-    } else {
-        Go8Legal = FALSE;
-    }
-    if (BPSs >=1 && BQNs >=1 && MJs >=1 && MTVs >=1 && CampusLegal == TRUE) {
-        //build campus
+    // Test GO8
+    action tempAction = iterateLegal(BUILD_GO8, g);
+    nextAction.actionCode = tempAction.actionCode;
+    strcpy( nextAction.destination, tempAction.destination );
+
+    if (nextAction.actionCode == PASS) {
+
+        // Test Campus
         action tempAction = iterateLegal(BUILD_CAMPUS, g);
-        if (tempAction.actionCode == PASS) {
-            CampusLegal = FALSE;
-        }
-    } else {
-        CampusLegal = FALSE;
-    }
-    if (BQNs >=1 && BPSs >=1 && ArcLegal == TRUE) {
-        //build arc
-        action tempAction = iterateLegal(OBTAIN_ARC, g);
-        if (tempAction.actionCode == PASS) {
-            ArcLegal = FALSE;
-        }
-    } else {
-        ArcLegal = FALSE;
-    }
-    if (!(MJs >=1 && MTVs >=1 && MMONEYs>=1)) {
-        SpinoffPossible = FALSE;
-    } 
-    //trade
-    if (Go8Legal == FALSE && CampusLegal == FALSE && ArcLegal == FALSE && SpinoffPossible == FALSE) {
-        nextAction.actionCode = RETRAIN_STUDENTS;
+        nextAction.actionCode = tempAction.actionCode;
+        strcpy( nextAction.destination, tempAction.destination );
 
-        if ( BPSs > BQNs ) {
-            nextAction.disciplineTo = STUDENT_BQN;
-        } else {
-            nextAction.disciplineTo = STUDENT_BPS;
-        }
+        if (nextAction.actionCode == PASS) {
 
-        nextAction.disciplineFrom = STUDENT_MMONEY;
-        if ( !isLegalAction( g, nextAction ) ) {
-            nextAction.disciplineFrom = STUDENT_MTV;
-            if ( !isLegalAction( g, nextAction ) ) {
-                nextAction.disciplineFrom = STUDENT_MJ;
+            // Test ArC
+            action tempAction = iterateLegal(OBTAIN_ARC, g);
+            nextAction.actionCode = tempAction.actionCode;
+            strcpy( nextAction.destination, tempAction.destination );
+
+            if (nextAction.actionCode == PASS) {
+
+                // test Spinoff
+                nextAction.actionCode = START_SPINOFF;
+
                 if ( !isLegalAction( g, nextAction ) ) {
-                    nextAction.actionCode = PASS;
+
+                    // Find students to retrain
+
+                    nextAction.actionCode = RETRAIN_STUDENTS;
+
+                    if ( getStudents(g, myID, STUDENT_BPS) > getStudents(g, myID, STUDENT_BQN) ) {
+                        nextAction.disciplineTo = STUDENT_BQN;
+                    } else {
+                        nextAction.disciplineTo = STUDENT_BPS;
+                    }
+
+                    nextAction.disciplineFrom = STUDENT_MMONEY;
+                    if ( !isLegalAction( g, nextAction ) ) {
+                        nextAction.disciplineFrom = STUDENT_MTV;
+                        if ( !isLegalAction( g, nextAction ) ) {
+                            nextAction.disciplineFrom = STUDENT_MJ;
+                            if ( !isLegalAction( g, nextAction ) ) {
+                                nextAction.actionCode = PASS;
+                            }
+                        }
+                    }
                 }
             }
         }
