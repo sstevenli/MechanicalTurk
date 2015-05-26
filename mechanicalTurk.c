@@ -49,30 +49,57 @@ action decideAction (Game g) {
             if (nextAction.actionCode == PASS) {
 
                 // test Spinoff
+                // REMOVE SPINOFF FROM THE BOT FOR NOW XXX XXX
+                /*
                 nextAction.actionCode = START_SPINOFF;
 
-                if ( !isLegalAction( g, nextAction ) ) {
 
+                if ( !isLegalAction( g, nextAction ) ) {
+                */
+                if ( TRUE ) {
+                    
                     nextAction.actionCode = RETRAIN_STUDENTS;
 
-                    if ( getStudents(g, getWhoseTurn(g), STUDENT_BPS) > getStudents(g, getWhoseTurn(g), STUDENT_BQN) ) {
-                        nextAction.disciplineTo = STUDENT_BQN;
-                    } else {
-                        nextAction.disciplineTo = STUDENT_BPS;
-                    }
+                    if ( getStudents(g, getWhoseTurn(g), STUDENT_BPS) < 3 &&
+                         getStudents(g, getWhoseTurn(g), STUDENT_BQN) < 3 ) {
 
-                    nextAction.disciplineFrom = STUDENT_MMONEY;
-                    if ( !isLegalAction( g, nextAction ) ) {
-                        nextAction.disciplineFrom = STUDENT_MTV;
+                        if ( getStudents(g, getWhoseTurn(g), STUDENT_BPS) > getStudents(g, getWhoseTurn(g), STUDENT_BQN) ) {
+                            nextAction.disciplineTo = STUDENT_BQN;
+                        } else {
+                            nextAction.disciplineTo = STUDENT_BPS;
+                        }
+
+                        nextAction.disciplineFrom = STUDENT_MMONEY;
                         if ( !isLegalAction( g, nextAction ) ) {
-                            nextAction.disciplineFrom = STUDENT_MJ;
+                            nextAction.disciplineFrom = STUDENT_MTV;
                             if ( !isLegalAction( g, nextAction ) ) {
-                                nextAction.actionCode = PASS;
+                                nextAction.disciplineFrom = STUDENT_MJ;
+                                if ( !isLegalAction( g, nextAction ) ) {
+                                    nextAction.actionCode = PASS;
+                                }
                             }
                         }
-                    }
 
-                    nextAction.actionCode = PASS;
+                    } else {
+
+                        if ( getStudents(g, getWhoseTurn(g), STUDENT_BPS) > getStudents(g, getWhoseTurn(g), STUDENT_BQN) ) {
+                            nextAction.disciplineFrom = STUDENT_BPS;
+                        } else {
+                            nextAction.disciplineFrom = STUDENT_BQN;
+                        }
+
+                        if ( getStudents(g, getWhoseTurn(g), STUDENT_MJ) < 1 ) {
+                            nextAction.disciplineTo = STUDENT_MJ;
+                        } else if ( getStudents(g, getWhoseTurn(g), STUDENT_MTV) < 2 ) {
+                            nextAction.disciplineTo = STUDENT_MTV;
+                        } else if ( getStudents(g, getWhoseTurn(g), STUDENT_MMONEY) < 3 ) {
+                            nextAction.disciplineTo = STUDENT_MMONEY;
+                        }
+
+                        if ( !isLegalAction( g, nextAction ) ) {
+                            nextAction.actionCode = PASS;
+                        }
+                    }
                 }
             }
         }
