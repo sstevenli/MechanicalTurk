@@ -14,7 +14,6 @@
 #define PATH_INITIAL "RLRL"
 #define PATH_SEQUENCE "RLLLLLRLLLLBLLLLBLLLLBLLLLBLLLLBLLLBLLLLBLLLLBLLLBLLLLBLLLBLLLLBLLLBLLLLBLLLBLLLLBLLLBLLL"
 
-static void nextPath( path previousPath);
 static action iterateLegal (int actionCode, Game g);
 
 action decideAction (Game g) {
@@ -91,34 +90,41 @@ action decideAction (Game g) {
 }
 
 static action iterateLegal (int actionCode, Game g) {
+
+    path pathSequence = PATH_SEQUENCE;
     path tempPath = PATH_INITIAL;
+
     action tempAction;
     tempAction.actionCode = actionCode;
     strcpy(tempAction.destination, tempPath);
+
     //tempAction.disciplineFrom = from;
     //tempAction.disciplineTo = to;
-    int legal = FALSE;
 
-    while ( (strlen(tempPath) <= (strlen(PATH_INITIAL) + strlen(PATH_SEQUENCE))) && legal == FALSE) {
+    int legal = FALSE;
+    int index = 0;
+
+    while ( index < strlen(PATH_SEQUENCE) && legal == FALSE) {
+
         legal = isLegalAction(g, tempAction);
+
         if (legal == FALSE) {
-            nextPath(tempPath);
+            strncat( tempPath, pathSequence+index, 1 );
+            /*
+            tempPath[index + strlen(PATH_INITIAL)]     = pathSequence[index];
+            tempPath[index + strlen(PATH_INITIAL) + 1] = '\0';
+            */
             strcpy(tempAction.destination, tempPath);
         }
+
+        index++;
     }
+
     if (legal == FALSE) {
        tempAction.actionCode = PASS; 
     }
+
+    strcpy(tempAction.destination, tempPath);
+
     return tempAction;
 }
-// index is the index of PATH_SEQUENCE
-// i.e. the current iteration of the pathing loop
-static void nextPath(path previousPath) {
-    int index = strlen(previousPath) - strlen(PATH_INITIAL);
-    path pathSequence = PATH_SEQUENCE;
-    previousPath[index + strlen(PATH_INITIAL)]      = pathSequence[index];
-    previousPath[index + strlen(PATH_INITIAL) + 1] = '\0';
-
-}
-
-
