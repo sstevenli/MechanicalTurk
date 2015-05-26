@@ -84,8 +84,6 @@ action decideAction (Game g) {
         }
     }
 
-    printf( "%d, ", nextAction.actionCode );
-
     return nextAction;
 }
 
@@ -97,9 +95,6 @@ static action iterateLegal (int actionCode, Game g) {
     action tempAction;
     tempAction.actionCode = actionCode;
     strcpy(tempAction.destination, tempPath);
-
-    //tempAction.disciplineFrom = from;
-    //tempAction.disciplineTo = to;
 
     int legal = FALSE;
     int index = 0;
